@@ -1,5 +1,8 @@
-name: "Build Docker Image"
-description: "Builds and optionally pushes a Docker image"
+name: build-docker
+description: Build, push and scan Docker images
+branding:
+  icon: upload-cloud
+  color: purple
 
 inputs:
   build-args:
