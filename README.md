@@ -34,25 +34,25 @@ A GitHub composite action that simplifies Docker image building, pushing, and sc
 
 ## Inputs
 
-| Name                     | Description                          | Required | Default                   |
-| ------------------------ | ------------------------------------ | -------- | ------------------------- |
-| `image-name`             | Image name (including registry path) | Yes      | -                         |
-| `github-token`           | GitHub token for authentication      | Yes      | `${{ github.token }}`     |
-| `build-args`             | Docker build arguments               | No       | `""`                      |
-| `context`                | Build context path                   | No       | `.`                       |
-| `dockerhub-username`     | Docker Hub username                  | No       | `""`                      |
-| `dockerhub-password`     | Docker Hub password                  | No       | `""`                      |
-| `image-extra-tags`       | Additional image tags                | No       | `""`                      |
-| `image-target`           | Multi-stage build target             | No       | `""`                      |
-| `platforms`              | Build platforms                      | No       | `linux/amd64,linux/arm64` |
-| `push`                   | Push to registry                     | No       | `true`                    |
-| `ref`                    | Git ref to checkout                  | No       | `${{ github.ref }}`       |
-| `runner`                 | GitHub runner to use                 | No       | `ubuntu-latest`           |
-| `scout-compare`          | Enable Docker Scout comparison       | No       | `false`                   |
-| `scout-comment-pr`       | Add Scout results as PR comment      | No       | `false`                   |
-| `scout-cves`             | Enable Docker Scout CVE scanning     | No       | `false`                   |
-| `kubescape`              | Enable Kubescape scanning            | No       | `false`                   |
-| `kubescape-upload-sarif` | Upload Kubescape SARIF results       | No       | `false`                   |
+| Name                     | Description                                                                           | Required | Default                   |
+| ------------------------ | ------------------------------------------------------------------------------------- | -------- | ------------------------- |
+| `image-name`             | Image name (including registry path)                                                  | Yes      | -                         |
+| `github-token`           | GitHub token for authentication                                                       | Yes      | `${{ github.token }}`     |
+| `build-args`             | Docker build arguments                                                                | No       | `""`                      |
+| `context`                | Build context path                                                                    | No       | `.`                       |
+| `dockerhub-username`     | Docker Hub username (required when `scout-cves` or `scout-compare` is enabled)        | No       | `""`                      |
+| `dockerhub-password`     | Docker Hub password (required when `scout-cves` or `scout-compare` is enabled)        | No       | `""`                      |
+| `image-extra-tags`       | Additional image tags                                                                 | No       | `""`                      |
+| `image-target`           | Multi-stage build target                                                              | No       | `""`                      |
+| `platforms`              | Build platforms                                                                       | No       | `linux/amd64,linux/arm64` |
+| `push`                   | Push to registry (requires `packages: write`)                                         | No       | `true`                    |
+| `ref`                    | Git ref to checkout                                                                   | No       | `${{ github.ref }}`       |
+| `runner`                 | GitHub runner to use                                                                  | No       | `ubuntu-latest`           |
+| `scout-compare`          | Enable Docker Scout comparison                                                        | No       | `false`                   |
+| `scout-comment-pr`       | Add Scout results as PR comment (only in pull requests)                               | No       | `false`                   |
+| `scout-cves`             | Enable Docker Scout CVE scanning                                                      | No       | `false`                   |
+| `kubescape`              | Enable Kubescape scanning                                                             | No       | `false`                   |
+| `kubescape-upload-sarif` | Upload Kubescape SARIF results to GitHub Security (requires `security-events: write`) | No       | `false`                   |
 
 ## Outputs
 
@@ -79,6 +79,8 @@ jobs:
       - uses: meysam81/build-docker@v1
         with:
           image-name: ghcr.io/${{ github.repository }}
+          image-extra-tags: |
+            ghcr.io/${{ github.repository }}:${{ github.run_id }}
           kubescape: true
           kubescape-upload-sarif: true
 ```
