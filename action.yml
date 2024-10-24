@@ -1,4 +1,4 @@
-name: build-docker
+name: docker-build-plus
 description: Build, push and scan Docker images
 branding:
   icon: upload-cloud
