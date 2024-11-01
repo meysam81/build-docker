@@ -187,7 +187,8 @@ runs:
         outputFile: results.sarif
         severityThreshold: Medium
 
-    - if: inputs.kubescape-upload-sarif == 'true'
+    - continue-on-error: true
+      if: inputs.kubescape-upload-sarif == 'true'
       name: Upload Kubescape scan results to Github Code Scanning
       uses: github/codeql-action/upload-sarif@v3
       with:
