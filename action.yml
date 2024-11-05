@@ -14,13 +14,13 @@ inputs:
     description: Context of the Dockerfile
     required: false
   dockerhub-password:
+    default: ""
     description: Docker Hub password
     required: false
-    default: ""
   dockerhub-username:
+    default: ""
     description: Docker Hub username
     required: false
-    default: ""
   github-token:
     default: ${{ github.token }}
     description: GitHub token
@@ -55,6 +55,14 @@ inputs:
   ref:
     default: ${{ github.ref }}
     description: Ref to checkout
+    required: false
+  registry-password:
+    default: ${{ github.token }}
+    description: The password to use when scanning the image with Kubescape
+    required: false
+  registry-username:
+    default: ${{ github.actor }}
+    description: The username to use when scanning the image with Kubescape
     required: false
   runner:
     default: ubuntu-latest
@@ -142,7 +150,7 @@ runs:
       uses: docker/scout-action@v1
       with:
         command: compare
-        github-token: ${{ github.token }}
+        github-token: ${{ inputs.github-token }}
         ignore-unchanged: true
         image: ${{ steps.meta.outputs.tags }}
         only-severities: critical,high,medium
@@ -178,13 +186,15 @@ runs:
         name: scout-results-${{ steps.job-id.outputs.job-id }}
         path: sarif.output.json
 
-    - if: inputs.kubescape == 'true'
+    - continue-on-error: true
+      if: inputs.kubescape == 'true'
       uses: kubescape/github-action@main
-      continue-on-error: true
       with:
-        image: ${{ inputs.image-name }}@${{ steps.build-push.outputs.digest }}
         format: sarif
+        image: ${{ inputs.image-name }}@${{ steps.build-push.outputs.digest }}
         outputFile: results.sarif
+        registryPassword: ${{ inputs.registry-password }}
+        registryUsername: ${{ inputs.registry-username }}
         severityThreshold: Medium
 
     - continue-on-error: true
