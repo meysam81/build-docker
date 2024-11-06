@@ -169,8 +169,9 @@ runs:
         sarif-file: sarif.output.json
         summary: true
 
-    - name: Create unique job identifier
-      id: job-id
+    - id: job-id
+      if: inputs.scout-cves == 'true'
+      name: Create unique job identifier
       shell: bash
       run: |
         four_character_timestamp=$(date +%s | sha256sum | base64 | head -c 4)
