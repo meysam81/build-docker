@@ -57,11 +57,11 @@ inputs:
     description: Ref to checkout
     required: false
   registry-password:
-    default: ${{ github.token }}
+    default: ""
     description: The password to use when scanning the image with Kubescape
     required: false
   registry-username:
-    default: ${{ github.actor }}
+    default: ""
     description: The username to use when scanning the image with Kubescape
     required: false
   runner:
