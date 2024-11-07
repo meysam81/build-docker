@@ -192,31 +192,8 @@ runs:
         path: sarif.output.json
 
     - continue-on-error: true
-      if: |
-        inputs.kubescape == 'true' &&
-        ${{ inputs.registry-username }} != '' &&
-        ${{ inputs.registry-password }} != ''
-      shell: bash
-      env:
-        GH_TOKEN: ${{ inputs.github-token }}
-      run: |
-        gh release download ${{ inputs.kubescape-version }} \
-          -R kubescape/kubescape -p kubescape-ubuntu-latest -O kubescape
-        chmod +x kubescape
-
-        ./kubescape scan image \
-          ${{ inputs.image-name }}@${{ steps.build-push.outputs.digest }} \
-          --output results.sarif \
-          --severity-threshold Medium \
-          --format sarif \
-          --verbose
-
-    - continue-on-error: true
-      if: |
-        inputs.kubescape == 'true' &&
-        ${{ inputs.registry-username }} == '' &&
-        ${{ inputs.registry-password }} == ''
-      uses: kubescape/github-action@main
+      if: inputs.kubescape == 'true'
+      uses: meysam81/kubescape-action@main
       with:
         format: sarif
         image: ${{ inputs.image-name }}@${{ steps.build-push.outputs.digest }}
