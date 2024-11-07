@@ -214,7 +214,7 @@ runs:
         inputs.kubescape == 'true' &&
         ${{ inputs.registry-username }} == '' &&
         ${{ inputs.registry-password }} == ''
-      uses: meysam81/kubescape-action@main
+      uses: kubescape/github-action@main
       with:
         format: sarif
         image: ${{ inputs.image-name }}@${{ steps.build-push.outputs.digest }}
