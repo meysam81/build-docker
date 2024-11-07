@@ -195,6 +195,8 @@ runs:
         image: ${{ inputs.image-name }}@${{ steps.build-push.outputs.digest }}
         outputFile: results.sarif
         severityThreshold: Medium
+        registryUsername: ${{ inputs.registry-username }}
+        registryPassword: ${{ inputs.registry-password }}
 
     - continue-on-error: true
       if: inputs.kubescape-upload-sarif == 'true'
