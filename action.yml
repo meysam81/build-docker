@@ -197,6 +197,8 @@ runs:
         ${{ inputs.registry-username }} != '' &&
         ${{ inputs.registry-password }} != ''
       shell: bash
+      env:
+        GH_TOKEN: ${{ inputs.github-token }}
       run: |
         gh release download ${{ inputs.kubescape-version }} \
           -R kubescape/kubescape -p kubescape-ubuntu-latest -O kubescape
