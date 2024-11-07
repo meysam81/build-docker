@@ -191,17 +191,15 @@ runs:
       shell: bash
       if: inputs.registry-username != '' && inputs.registry-password != ''
       run: |
-        cat <<'EOF' > /tmp/ghcr-cred
+        cat <<EOF > ~/.docker/config.json
         {
           "auths": {
             "ghcr.io": {
-              "username": "${{ inputs.registry-username }}",
-              "password": "${{ inputs.registry-password }}"
+              "auth": "$(echo -n ${{ inputs.registry-username }}:${{ inputs.registry-password }} | base64 -w 0)"
             }
           }
         }
         EOF
-        docker login ghcr.io --username ${{ inputs.registry-username }} --password-stdin < /tmp/ghcr-cred
 
     - continue-on-error: true
       if: inputs.kubescape == 'true'
