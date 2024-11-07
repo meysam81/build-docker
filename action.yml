@@ -44,6 +44,10 @@ inputs:
     default: "false"
     description: Whether or not to upload Kubescape SARIF results
     required: false
+  kubescape-version:
+    default: v3.0.18
+    description: Kubescape version
+    required: false
   platforms:
     default: linux/amd64,linux/arm64
     description: Platforms to build for
@@ -188,15 +192,34 @@ runs:
         path: sarif.output.json
 
     - continue-on-error: true
-      if: inputs.kubescape == 'true'
+      if: |
+        inputs.kubescape == 'true' &&
+        ${{ inputs.registry-username }} != '' &&
+        ${{ inputs.registry-password }} != ''
+      shell: bash
+      run: |
+        gh release download ${{ inputs.kubescape-version }} \
+          -R kubescape/kubescape -p kubescape-ubuntu-latest -O kubescape
+        chmod +x kubescape
+
+        ./kubescape scan image \
+          ${{ inputs.image-name }}@${{ steps.build-push.outputs.digest }} \
+          --output results.sarif \
+          --severity-threshold Medium \
+          --format sarif \
+          --verbose
+
+    - continue-on-error: true
+      if: |
+        inputs.kubescape == 'true' &&
+        ${{ inputs.registry-username }} == '' &&
+        ${{ inputs.registry-password }} == ''
       uses: meysam81/kubescape-action@main
       with:
         format: sarif
         image: ${{ inputs.image-name }}@${{ steps.build-push.outputs.digest }}
         outputFile: results.sarif
         severityThreshold: Medium
-        registryUsername: ${{ inputs.registry-username }}
-        registryPassword: ${{ inputs.registry-password }}
 
     - continue-on-error: true
       if: inputs.kubescape-upload-sarif == 'true'
