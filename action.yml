@@ -187,20 +187,6 @@ runs:
         name: scout-results-${{ steps.job-id.outputs.job-id }}
         path: sarif.output.json
 
-    - name: Setup GHCR credential
-      shell: bash
-      if: inputs.registry-username != '' && inputs.registry-password != ''
-      run: |
-        cat <<EOF > ~/.docker/config.json
-        {
-          "auths": {
-            "ghcr.io": {
-              "auth": "$(echo -n ${{ inputs.registry-username }}:${{ inputs.registry-password }} | base64 -w 0)"
-            }
-          }
-        }
-        EOF
-
     - continue-on-error: true
       if: inputs.kubescape == 'true'
       uses: kubescape/github-action@main
