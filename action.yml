@@ -191,6 +191,13 @@ runs:
         job_id="${four_character_timestamp}${run_id}"
         echo "job-id=$job_id" >> $GITHUB_OUTPUT
 
+    - name: Pick the first image name if multiple are provided
+      id: image-name
+      shell: bash
+      run: |
+        image_name=$(echo ${{ inputs.image-name }} | awk '{print $1}')
+        echo "image-name=$image_name" >> $GITHUB_OUTPUT
+
     - name: Upload artifact
       if: inputs.scout-cves == 'true'
       uses: actions/upload-artifact@v4
@@ -204,7 +211,7 @@ runs:
       uses: meysam81/kubescape-action@main
       with:
         format: sarif
-        image: ${{ inputs.image-name }}@${{ steps.build-push.outputs.digest }}
+        image: ${{ steps.image-name.outputs.image-name }}@${{ steps.build-push.outputs.digest }}
         outputFile: results.sarif
         severityThreshold: Medium
         registryUsername: ${{ inputs.registry-username }}
@@ -220,5 +227,5 @@ runs:
     - if: inputs.cosign == 'true'
       name: Sign image with cosign
       run: |
-        cosign sign --yes ${{ inputs.image-name }}@${{ steps.build-push.outputs.digest }}
+        cosign sign --yes ${{ steps.image-name.outputs.image-name }}@${{ steps.build-push.outputs.digest }}
       shell: bash
