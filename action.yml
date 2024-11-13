@@ -13,6 +13,10 @@ inputs:
     default: .
     description: Context of the Dockerfile
     required: false
+  cosign:
+    default: "false"
+    description: Whether or not to sign the image with Cosign
+    required: false
   dockerhub-password:
     default: ""
     description: Docker Hub password
@@ -103,6 +107,10 @@ runs:
       uses: actions/checkout@v4
       with:
         ref: ${{ inputs.ref }}
+
+    - if: inputs.cosign == 'true'
+      name: Setup Cosign CLI
+      uses: sigstore/cosign-installer@v3
 
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v3
@@ -208,3 +216,9 @@ runs:
       uses: github/codeql-action/upload-sarif@v3
       with:
         sarif_file: results.sarif
+
+    - if: inputs.cosign == 'true'
+      name: Sign image with cosign
+      run: |
+        cosign sign --yes ${{ steps.build-push.outputs.digest }}
+      shell: bash
