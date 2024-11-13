@@ -220,5 +220,5 @@ runs:
     - if: inputs.cosign == 'true'
       name: Sign image with cosign
       run: |
-        cosign sign --yes ${{ steps.build-push.outputs.digest }}
+        cosign sign --yes ${{ inputs.image-name }}@${{ steps.build-push.outputs.digest }}
       shell: bash
