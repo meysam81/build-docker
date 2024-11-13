@@ -195,7 +195,7 @@ runs:
       id: image-name
       shell: bash
       run: |
-        image_name=$(echo ${{ inputs.image-name }} | awk '{print $1}')
+        image_name=$(echo "${{ inputs.image-name }}" | awk 'NR==1 {gsub(/^ +| +$/, ""); print}')
         echo "image-name=$image_name" >> $GITHUB_OUTPUT
 
     - name: Upload artifact
