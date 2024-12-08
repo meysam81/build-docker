@@ -56,6 +56,10 @@ inputs:
     default: linux/amd64,linux/arm64
     description: Platforms to build for
     required: false
+  pre-build-commands:
+    default: ''
+    description: A set of bash commands to run before building the docker image
+    required: false
   push:
     default: "true"
     description: Whether or not to push image to registry
@@ -140,6 +144,11 @@ runs:
       with:
         images: |
           ${{ inputs.image-name }}
+
+    - name: Run pre-build commands
+      if: inputs.pre-build-commands != ''
+      run: ${{ inputs.pre-build-commands }}
+      shell: bash
 
     - name: Build and push
       id: build-push
