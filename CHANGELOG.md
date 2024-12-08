@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0](https://github.com/meysam81/build-docker/compare/v1.1.0...v1.2.0) (2024-12-08)
+
+
+### Features
+
+* allow to run pre-build commands for extra flexbility ([aebb3d4](https://github.com/meysam81/build-docker/commit/aebb3d43d48adf1c29b1697bab0fca4d998ededd))
+
 ## [1.1.0](https://github.com/meysam81/build-docker/compare/v1.0.0...v1.1.0) (2024-11-30)
 
 
