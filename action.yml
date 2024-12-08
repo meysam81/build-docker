@@ -208,7 +208,7 @@ runs:
 
     - continue-on-error: true
       if: inputs.kubescape == 'true'
-      uses: meysam81/kubescape-action@main
+      uses: kubescape/github-action@main
       with:
         format: sarif
         image: ${{ steps.image-name.outputs.image-name }}@${{ steps.build-push.outputs.digest }}
