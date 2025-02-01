@@ -21,6 +21,10 @@ inputs:
     default: "false"
     description: Whether or not to sign the image with Cosign
     required: false
+  dockerfile:
+    default: ""
+    description: Dockerfile
+    required: false
   dockerhub-password:
     default: ""
     description: Docker Hub password
@@ -168,6 +172,7 @@ runs:
         cache-from: type=gha
         cache-to: type=gha,mode=max
         context: ${{ inputs.context }}
+        file: ${{ inputs.dockerfile }}
         labels: ${{ steps.meta.outputs.labels }}
         platforms: ${{ inputs.platforms }}
         push: ${{ inputs.push }}
