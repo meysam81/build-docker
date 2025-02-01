@@ -9,6 +9,10 @@ inputs:
     default: ""
     description: Build arguments
     required: false
+  checkout:
+    default: "true"
+    description: Whether or not to checkout the repository
+    required: false
   context:
     default: .
     description: Context of the Dockerfile
@@ -68,6 +72,10 @@ inputs:
     default: ${{ github.ref }}
     description: Ref to checkout
     required: false
+  repository:
+    default: ${{ github.repository }}
+    description: Repository to checkout
+    required: false
   registry-password:
     default: ""
     description: The password to use when scanning the image with Kubescape
@@ -107,9 +115,11 @@ outputs:
 runs:
   using: "composite"
   steps:
-    - name: Checkout
+    - if: inputs.checkout == 'true'
+      name: Checkout
       uses: actions/checkout@v4
       with:
+        repository: ${{ inputs.repository }}
         ref: ${{ inputs.ref }}
 
     - if: inputs.cosign == 'true'
