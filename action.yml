@@ -104,6 +104,10 @@ inputs:
     default: "false"
     description: Whether or not to run scout CVEs
     required: false
+  submodules:
+    default: ""
+    description: Whether or not to checkout submodules
+    required: false
 
 outputs:
   digest:
@@ -125,6 +129,7 @@ runs:
       with:
         repository: ${{ inputs.repository }}
         ref: ${{ inputs.ref }}
+        submodules: ${{ inputs.submodules }}
 
     - if: inputs.cosign == 'true'
       name: Setup Cosign CLI
