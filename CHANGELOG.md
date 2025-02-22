@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.3.0](https://github.com/meysam81/build-docker/compare/v1.2.0...v1.3.0) (2025-02-22)
+
+
+### Features
+
+* accept dockerfile as arg ([37723f0](https://github.com/meysam81/build-docker/commit/37723f0fd37de980c89a00d0a70b58253113b784))
+* accept submodules as arg ([478ff53](https://github.com/meysam81/build-docker/commit/478ff53a61a1c6c3c761e10565c51fdd86510546))
+* checkout custom repositories ([33b0db1](https://github.com/meysam81/build-docker/commit/33b0db15967343a22b242246b8473cf9a38e3464))
+
 ## [1.2.0](https://github.com/meysam81/build-docker/compare/v1.1.0...v1.2.0) (2024-12-08)
 
 
