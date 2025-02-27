@@ -167,7 +167,8 @@ runs:
       with:
         images: |
           ${{ inputs.image-name }}
-        tags: ${{ inputs.metadata-tags }}
+        tags: |
+          ${{ inputs.metadata-tags }}
 
     - name: Run pre-build commands
       if: inputs.pre-build-commands != ''
