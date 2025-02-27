@@ -60,6 +60,10 @@ inputs:
     default: v3.0.18
     description: Kubescape version
     required: false
+  metadata-tags:
+    default: ""
+    description: Metadata tags
+    required: false
   platforms:
     default: linux/amd64,linux/arm64
     description: Platforms to build for
@@ -163,6 +167,7 @@ runs:
       with:
         images: |
           ${{ inputs.image-name }}
+        tags: ${{ inputs.metadata-tags }}
 
     - name: Run pre-build commands
       if: inputs.pre-build-commands != ''
