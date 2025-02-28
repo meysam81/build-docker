@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.4.0](https://github.com/meysam81/build-docker/compare/v1.3.0...v1.4.0) (2025-02-27)
+
+
+### Features
+
+* allow modifying the metadata-action tags ([5030970](https://github.com/meysam81/build-docker/commit/5030970ea45c74d5337da6335b2fefe0a5273fda))
+
+
+### Bug Fixes
+
+* pass metadata-tags in multiline yaml format ([599fe13](https://github.com/meysam81/build-docker/commit/599fe1329cf7af2fac97b23ff1b2e11561e122fb))
+
 ## [1.3.0](https://github.com/meysam81/build-docker/compare/v1.2.0...v1.3.0) (2025-02-22)
 
 
