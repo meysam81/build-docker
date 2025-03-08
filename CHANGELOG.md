@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.1](https://github.com/meysam81/build-docker/compare/v1.4.0...v1.4.1) (2025-03-08)
+
+
+### Bug Fixes
+
+* remove the default ref ([e473571](https://github.com/meysam81/build-docker/commit/e473571d58e16b5ecd05aec7e34f83d38eff66a9))
+
 ## [1.4.0](https://github.com/meysam81/build-docker/compare/v1.3.0...v1.4.0) (2025-02-27)
 
 
