@@ -23,18 +23,28 @@ jobs:
       - name: Run ansible-lint
         uses: ansible/ansible-lint@main
 
-  release-please:
+  semantic-release:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
-    outputs:
-      releases_created: ${{ steps.release-please.outputs.releases_created }}
-      tag_name: ${{ steps.release-please.outputs.tag_name }}
     permissions:
       contents: write
+      packages: write
+      issues: write
       pull-requests: write
+      id-token: write
     steps:
-      - id: release-please
-        name: Release please
-        uses: googleapis/release-please-action@v4
+      - name: Checkout
+        uses: actions/checkout@v4
         with:
-          release-type: simple
+          fetch-depth: 0
+      - name: Setup bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - name: Install bun deps
+        run: bun install
+      - id: semantic-release
+        name: Release
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: bunx semantic-release@v24

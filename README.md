@@ -3,12 +3,11 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-- [build-docker](#build-docker)
-  - [Features](#features)
-  - [Usage](#usage)
-  - [Inputs](#inputs)
-  - [Outputs](#outputs)
-  - [Example](#example)
+- [Features](#features)
+- [Usage](#usage)
+- [Inputs](#inputs)
+- [Outputs](#outputs)
+- [Example](#example)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
