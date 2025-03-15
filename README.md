@@ -1,5 +1,12 @@
 # build-docker
 
+[![GitHub Release](https://img.shields.io/github/v/release/meysam81/build-docker)](https://github.com/meysam81/build-docker/releases/latest)
+[![Renovate](https://img.shields.io/badge/renovate-enabled-brightgreen.svg)](https://developer.mend.io/github/meysam81/build-docker)
+[![GitHub last commit](https://img.shields.io/github/last-commit/meysam81/build-docker)](https://github.com/meysam81/build-docker/commits/main)
+[![License](https://img.shields.io/github/license/meysam81/build-docker)](https://github.com/meysam81/build-docker/blob/main/LICENSE)
+[![GitHub issues](https://img.shields.io/github/issues/meysam81/build-docker)](https://github.com/meysam81/build-docker/issues)
+[![GitHub pull requests](https://img.shields.io/github/issues-pr/meysam81/build-docker)](https://github.com/meysam81/build-docker/pulls)
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
