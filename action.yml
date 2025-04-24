@@ -9,6 +9,14 @@ inputs:
     default: ""
     description: Build arguments
     required: false
+  cache-from:
+    default: type=gha
+    description: Cache from
+    required: false
+  cache-to:
+    default: type=gha,mode=max
+    description: Cache to
+    required: false
   checkout:
     default: "true"
     description: Whether or not to checkout the repository
@@ -180,8 +188,8 @@ runs:
       uses: docker/build-push-action@v6
       with:
         build-args: ${{ inputs.build-args }}
-        cache-from: type=gha
-        cache-to: type=gha,mode=max
+        cache-from: ${ inputs.cache-from }}
+        cache-to: ${{ inputs.cache-to }}
         context: ${{ inputs.context }}
         file: ${{ inputs.dockerfile }}
         labels: ${{ steps.meta.outputs.labels }}
