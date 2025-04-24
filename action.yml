@@ -188,7 +188,7 @@ runs:
       uses: docker/build-push-action@v6
       with:
         build-args: ${{ inputs.build-args }}
-        cache-from: ${ inputs.cache-from }}
+        cache-from: ${{ inputs.cache-from }}
         cache-to: ${{ inputs.cache-to }}
         context: ${{ inputs.context }}
         file: ${{ inputs.dockerfile }}
