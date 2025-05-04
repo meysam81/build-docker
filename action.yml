@@ -64,10 +64,6 @@ inputs:
     default: "false"
     description: Whether or not to upload Kubescape SARIF results
     required: false
-  kubescape-version:
-    default: v3.0.18
-    description: Kubescape version
-    required: false
   metadata-tags:
     default: ""
     description: Metadata tags
@@ -79,6 +75,10 @@ inputs:
   pre-build-commands:
     default: ""
     description: A set of bash commands to run before building the docker image
+    required: false
+  pull:
+    default: "false"
+    description: Whether or not to pull the base image
     required: false
   push:
     default: "true"
@@ -194,6 +194,7 @@ runs:
         file: ${{ inputs.dockerfile }}
         labels: ${{ steps.meta.outputs.labels }}
         platforms: ${{ inputs.platforms }}
+        pull: ${ inputs.pull }}
         push: ${{ inputs.push }}
         tags: |
           ${{ steps.meta.outputs.tags }}
