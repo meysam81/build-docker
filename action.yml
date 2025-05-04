@@ -194,7 +194,7 @@ runs:
         file: ${{ inputs.dockerfile }}
         labels: ${{ steps.meta.outputs.labels }}
         platforms: ${{ inputs.platforms }}
-        pull: ${ inputs.pull }}
+        pull: ${{ inputs.pull }}
         push: ${{ inputs.push }}
         tags: |
           ${{ steps.meta.outputs.tags }}
