@@ -268,6 +268,14 @@ runs:
       with:
         sarif_file: results.sarif
 
+    - shell: bash
+      name: Remove results.sarif
+      if: inputs.kubescape == 'true'
+      run: |
+        if [ -f results.sarif ]; then
+          rm results.sarif
+        fi
+
     - if: inputs.cosign == 'true'
       name: Sign image with cosign
       run: |
