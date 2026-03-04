@@ -244,7 +244,7 @@ runs:
 
     - name: Upload artifact
       if: inputs.scout-cves == 'true'
-      uses: actions/upload-artifact@v6
+      uses: actions/upload-artifact@v7
       with:
         if-no-files-found: warn
         name: scout-results-${{ steps.job-id.outputs.job-id }}
