@@ -185,7 +185,7 @@ runs:
 
     - name: Build and push
       id: build-push
-      uses: docker/build-push-action@v6
+      uses: docker/build-push-action@v7
       with:
         build-args: ${{ inputs.build-args }}
         cache-from: ${{ inputs.cache-from }}
