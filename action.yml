@@ -272,7 +272,8 @@ runs:
 
     - continue-on-error: true
       if: inputs.kubescape == 'true'
-      uses: kubescape/github-action@55308b8442c97f510a87f81f4b9d11d3e5419014 # main 2026-10-08, no release tag
+      # main as of 2026-10-08 (no release since v3.0.21, far behind main); Renovate moves the digest
+      uses: kubescape/github-action@55308b8442c97f510a87f81f4b9d11d3e5419014 # main
       with:
         format: sarif
         image: ${{ steps.image-name.outputs.image-name }}@${{ steps.build-push.outputs.digest }}
