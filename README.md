@@ -59,14 +59,21 @@ A GitHub composite action that simplifies Docker image building, pushing, and sc
 | `scout-cves`             | Enable Docker Scout CVE scanning                                                      | No       | `false`                   |
 | `kubescape`              | Enable Kubescape scanning                                                             | No       | `false`                   |
 | `kubescape-upload-sarif` | Upload Kubescape SARIF results to GitHub Security (requires `security-events: write`) | No       | `false`                   |
+| `persist-credentials`    | Keep the token in the checkout's git config; `false` unless a later step pushes       | No       | `true`                    |
+| `pre-build-commands`     | Bash commands run before the build, as written (only pass trusted text)               | No       | `""`                      |
+| `provenance`             | Provenance attestation for the build, e.g. `mode=max`; empty keeps the default        | No       | `""`                      |
+| `sbom`                   | Attach an SBOM attestation to the image                                               | No       | `false`                   |
+
+Every action this one uses is pinned to a commit SHA; Renovate moves the pins.
 
 ## Outputs
 
-| Name       | Description                      |
-| ---------- | -------------------------------- |
-| `digest`   | Image content-addressable digest |
-| `imageid`  | Built image ID                   |
-| `metadata` | Build result metadata            |
+| Name         | Description                                   |
+| ------------ | --------------------------------------------- |
+| `digest`     | Image content-addressable digest              |
+| `image-name` | The first `image-name` line, trimmed (signed) |
+| `imageid`    | Built image ID                                |
+| `metadata`   | Build result metadata                         |
 
 ## Example
 
