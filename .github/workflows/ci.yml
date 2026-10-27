@@ -9,38 +9,75 @@ on:
     branches:
       - main
 
+permissions:
+  contents: read
+
 jobs:
   ansible-lint:
     if: github.event_name == 'push' || github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          persist-credentials: false
       - name: Run ansible-lint
-        uses: ansible/ansible-lint@main
+        uses: ansible/ansible-lint@fac2489f3e4ccffa83a40b839770abbf4ab52327 # v26.10.0
+
+  # Runs this action from the PR's own tree: a multi-line image-name with
+  # padding must yield the trimmed first line, and an SBOM build must work.
+  test-action:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          persist-credentials: false
+      - name: Write a test build context
+        run: |
+          mkdir -p "$RUNNER_TEMP/ctx"
+          printf 'FROM scratch\nCOPY Dockerfile /Dockerfile\n' > "$RUNNER_TEMP/ctx/Dockerfile"
+      - id: build
+        uses: ./ # zizmor: ignore[self-repository] the documented way to run the action under test
+        with:
+          cache-from: ""
+          cache-to: ""
+          checkout: "false"
+          context: ${{ runner.temp }}/ctx
+          image-name: "  ghcr.io/meysam81/build-docker-test  \nghcr.io/meysam81/build-docker-test2"
+          persist-credentials: "false"
+          platforms: linux/amd64
+          push: "false"
+          sbom: "true"
+      - name: The first image name is picked and trimmed
+        env:
+          GOT: ${{ steps.build.outputs.image-name }}
+        run: |
+          test "$GOT" = "ghcr.io/meysam81/build-docker-test" || { echo "got: '$GOT'"; exit 1; }
 
   semantic-release:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     permissions:
       contents: write
-      packages: write
       issues: write
       pull-requests: write
-      id-token: write
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
         with:
           fetch-depth: 0
+          # semantic-release pushes with GITHUB_TOKEN itself (x-access-token URL)
+          persist-credentials: false
       - name: Setup bun
-        uses: oven-sh/setup-bun@v2
+        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2
         with:
-          bun-version: latest
+          bun-version-file: .bun-version
       - name: Install bun deps
-        run: bun install
+        run: bun install --frozen-lockfile
       - id: semantic-release
         name: Release
         env:
           GITHUB_TOKEN: ${{ github.token }}
-        run: bunx semantic-release@v24
+        run: bunx semantic-release
