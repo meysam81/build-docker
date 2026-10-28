@@ -33,38 +33,53 @@ A GitHub composite action that simplifies Docker image building, pushing, and sc
 ## Usage
 
 ```yaml
-- uses: meysam81/build-docker@v1
+- uses: meysam81/build-docker@e1a24e3e00108b76f3d174ed4b723881f97c1b91 # v1.7.0
   with:
-    image-name: ghcr.io/${{ github.repository }} # e.g. ghrc.io/octocat/hello-world
+    image-name: ghcr.io/${{ github.repository }} # e.g. ghcr.io/octocat/hello-world
 ```
+
+Pin to a full commit SHA with the version in a trailing comment, as above;
+Renovate and Dependabot both keep that form current. `@v1` also works but the
+tag moves with every release, so what runs can change under you.
 
 ## Inputs
 
-| Name                     | Description                                                                           | Required | Default                   |
-| ------------------------ | ------------------------------------------------------------------------------------- | -------- | ------------------------- |
-| `image-name`             | Image name (including registry path)                                                  | Yes      | -                         |
-| `github-token`           | GitHub token for authentication                                                       | Yes      | `${{ github.token }}`     |
-| `build-args`             | Docker build arguments                                                                | No       | `""`                      |
-| `context`                | Build context path                                                                    | No       | `.`                       |
-| `dockerhub-username`     | Docker Hub username (required when `scout-cves` or `scout-compare` is enabled)        | No       | `""`                      |
-| `dockerhub-password`     | Docker Hub password (required when `scout-cves` or `scout-compare` is enabled)        | No       | `""`                      |
-| `image-extra-tags`       | Additional image tags                                                                 | No       | `""`                      |
-| `image-target`           | Multi-stage build target                                                              | No       | `""`                      |
-| `platforms`              | Build platforms                                                                       | No       | `linux/amd64,linux/arm64` |
-| `push`                   | Push to registry (requires `packages: write`)                                         | No       | `true`                    |
-| `ref`                    | Git ref to checkout                                                                   | No       | `${{ github.ref }}`       |
-| `runner`                 | GitHub runner to use                                                                  | No       | `ubuntu-latest`           |
-| `scout-compare`          | Enable Docker Scout comparison                                                        | No       | `false`                   |
-| `scout-comment-pr`       | Add Scout results as PR comment (only in pull requests)                               | No       | `false`                   |
-| `scout-cves`             | Enable Docker Scout CVE scanning                                                      | No       | `false`                   |
-| `kubescape`              | Enable Kubescape scanning                                                             | No       | `false`                   |
-| `kubescape-upload-sarif` | Upload Kubescape SARIF results to GitHub Security (requires `security-events: write`) | No       | `false`                   |
-| `persist-credentials`    | Keep the token in the checkout's git config; `false` unless a later step pushes       | No       | `true`                    |
-| `pre-build-commands`     | Bash commands run before the build, as written (only pass trusted text)               | No       | `""`                      |
-| `provenance`             | Provenance attestation for the build, e.g. `mode=max`; empty keeps the default        | No       | `""`                      |
-| `sbom`                   | Attach an SBOM attestation to the image                                               | No       | `false`                   |
+| Name                     | Description                                                                                      | Required | Default                    |
+| ------------------------ | ------------------------------------------------------------------------------------------------ | -------- | -------------------------- |
+| `image-name`             | Image name (including registry path); several lines are allowed, the first is signed and scanned | Yes      | -                          |
+| `github-token`           | GitHub token for authentication                                                                  | Yes      | `${{ github.token }}`      |
+| `build-args`             | Docker build arguments                                                                           | No       | `""`                       |
+| `cache-from`             | Build cache source                                                                               | No       | `type=gha`                 |
+| `cache-to`               | Build cache destination                                                                          | No       | `type=gha,mode=max`        |
+| `checkout`               | Check out the repository first; `false` when an earlier step already did                         | No       | `true`                     |
+| `context`                | Build context path                                                                               | No       | `.`                        |
+| `cosign`                 | Sign the image with Cosign (installs the CLI)                                                    | No       | `false`                    |
+| `dockerfile`             | Dockerfile path; empty uses `Dockerfile` in the context                                          | No       | `""`                       |
+| `dockerhub-username`     | Docker Hub username (required when `scout-cves` or `scout-compare` is enabled)                   | No       | `""`                       |
+| `dockerhub-password`     | Docker Hub password (required when `scout-cves` or `scout-compare` is enabled)                   | No       | `""`                       |
+| `image-extra-tags`       | Additional image tags                                                                            | No       | `""`                       |
+| `image-target`           | Multi-stage build target                                                                         | No       | `""`                       |
+| `kubescape`              | Enable Kubescape scanning                                                                        | No       | `false`                    |
+| `kubescape-upload-sarif` | Upload Kubescape SARIF results to GitHub Security (requires `security-events: write`)            | No       | `false`                    |
+| `metadata-tags`          | Tag rules passed to `docker/metadata-action`                                                     | No       | `""`                       |
+| `persist-credentials`    | Keep the token in the checkout's git config; `false` unless a later step pushes                  | No       | `true`                     |
+| `platforms`              | Build platforms                                                                                  | No       | `linux/amd64,linux/arm64`  |
+| `pre-build-commands`     | Bash commands run before the build, as written (only pass trusted text)                          | No       | `""`                       |
+| `provenance`             | Provenance attestation for the build, e.g. `mode=max`; empty keeps the default                   | No       | `""`                       |
+| `pull`                   | Always pull the base image                                                                       | No       | `false`                    |
+| `push`                   | Push to registry (requires `packages: write`)                                                    | No       | `true`                     |
+| `ref`                    | Git ref to check out; empty checks out the event's default ref                                   | No       | `""`                       |
+| `registry-username`      | Registry username Kubescape uses to pull the image                                               | No       | `""`                       |
+| `registry-password`      | Registry password Kubescape uses to pull the image                                               | No       | `""`                       |
+| `repository`             | Repository to check out                                                                          | No       | `${{ github.repository }}` |
+| `runner`                 | Declared for compatibility; the job's `runs-on` decides where this runs                          | No       | `ubuntu-latest`            |
+| `sbom`                   | Attach an SBOM attestation to the image                                                          | No       | `false`                    |
+| `scout-comment-pr`       | Add Scout results as PR comment (only in pull requests)                                          | No       | `false`                    |
+| `scout-compare`          | Enable Docker Scout comparison                                                                   | No       | `false`                    |
+| `scout-cves`             | Enable Docker Scout CVE scanning                                                                 | No       | `false`                    |
+| `submodules`             | Submodules to check out (`true`, `recursive`); empty skips them                                  | No       | `""`                       |
 
-Every action this one uses is pinned to a commit SHA; Renovate moves the pins.
+Every action this one uses is pinned to a commit SHA, and the QEMU (`tonistiigi/binfmt`) and BuildKit (`moby/buildkit`) helper images are pinned by digest; Renovate moves the pins.
 
 ## Outputs
 
@@ -89,7 +104,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: meysam81/build-docker@v1
+      - uses: meysam81/build-docker@e1a24e3e00108b76f3d174ed4b723881f97c1b91 # v1.7.0
         with:
           image-name: ghcr.io/${{ github.repository }}
           image-extra-tags: |

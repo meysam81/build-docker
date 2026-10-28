@@ -1,0 +1,6 @@
+rules:
+  ref-version-mismatch:
+    ignore:
+      # kubescape/github-action is pinned to a main commit on purpose: its last
+      # release (v3.0.21) is 31 commits behind, so no tag matches the pin.
+      - action.yml
