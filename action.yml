@@ -231,7 +231,7 @@ runs:
 
     - name: Docker Scout - compare
       if: inputs.scout-compare == 'true'
-      uses: docker/scout-action@bacf462e8d090c09660de30a6ccc718035f961e3 # v1.20.4
+      uses: docker/scout-action@a4119c5a8c5076236a54e4ce99531f7e4dd2ef84 # v1.27.0
       with:
         command: compare
         github-token: ${{ inputs.github-token }}
@@ -243,7 +243,7 @@ runs:
 
     - name: Docker Scout - cves
       if: inputs.scout-cves == 'true'
-      uses: docker/scout-action@bacf462e8d090c09660de30a6ccc718035f961e3 # v1.20.4
+      uses: docker/scout-action@a4119c5a8c5076236a54e4ce99531f7e4dd2ef84 # v1.27.0
       with:
         command: cves
         ignore-unchanged: true
