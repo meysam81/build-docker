@@ -13,7 +13,7 @@ ci:
 
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v6.0.0
+    rev: 3e8a8703264a2f4a69428a0aa4dcb512790b2c8c # frozen: v6.0.0
     hooks:
       - id: check-added-large-files
         args: ["--maxkb=800"]
@@ -59,13 +59,14 @@ repos:
         args:
           - --autofix
   - repo: https://github.com/alessandrojcm/commitlint-pre-commit-hook
-    rev: v9.24.0
+    rev: 1f6454da22d006d5bb0d2e65c96c43c23c8a534f # frozen: v9.24.0
     hooks:
       - id: commitlint
+        language: node
         stages: [commit-msg]
-        additional_dependencies: ["@commitlint/config-conventional"]
+        additional_dependencies: ["@commitlint/config-conventional@21.2.4"]
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.15.6
+    rev: 4924b0e01e032fea073ad04a1c5cfa7e4add0afb # frozen: v0.15.6
     hooks:
       - id: ruff
         args:
@@ -73,12 +74,12 @@ repos:
           - --select=I
       - id: ruff-format
   - repo: https://github.com/tofuutils/pre-commit-opentofu
-    rev: v2.2.2
+    rev: 10864545ddc58bd96330029b6bff16da3d072237 # frozen: v2.2.2
     hooks:
       - id: tofu_fmt
       - id: tofu_tflint
       - id: tofu_docs
   - repo: https://github.com/rhysd/actionlint
-    rev: v1.7.11
+    rev: 393031adb9afb225ee52ae2ccd7a5af5525e03e8 # frozen: v1.7.11
     hooks:
       - id: actionlint
