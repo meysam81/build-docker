@@ -161,7 +161,7 @@ runs:
 
     - if: inputs.cosign == 'true'
       name: Setup Cosign CLI
-      uses: sigstore/cosign-installer@6f9f17788090df1f26f669e9d70d6ae9567deba6 # v4.1.2
+      uses: sigstore/cosign-installer@756fe2d284c7292c4e9b62c8a28f1e5629c59532 # v4.1.3
 
     # The binfmt image runs --privileged: pinned by digest (the tag it was
     # resolved from is qemu-v10.2.3-68, what :latest pointed to). Renovate moves
@@ -283,7 +283,7 @@ runs:
     - continue-on-error: true
       if: inputs.kubescape == 'true'
       # main as of 2026-10-08 (no release since v3.0.21, far behind main); Renovate moves the digest
-      uses: kubescape/github-action@55308b8442c97f510a87f81f4b9d11d3e5419014 # main
+      uses: kubescape/github-action@0e5b202e9e3d32623bb0449eb90220b06f583f49 # main
       with:
         format: sarif
         image: ${{ steps.image-name.outputs.image-name }}@${{ steps.build-push.outputs.digest }}
