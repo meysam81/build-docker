@@ -59,14 +59,14 @@ repos:
         args:
           - --autofix
   - repo: https://github.com/alessandrojcm/commitlint-pre-commit-hook
-    rev: 1f6454da22d006d5bb0d2e65c96c43c23c8a534f # frozen: v9.24.0
+    rev: 1f1ac45c93d1c2ce36b71330252c489a5f4f2724 # frozen: v9.27.0
     hooks:
       - id: commitlint
         language: node
         stages: [commit-msg]
         additional_dependencies: ["@commitlint/config-conventional@21.2.4"]
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: 4924b0e01e032fea073ad04a1c5cfa7e4add0afb # frozen: v0.15.6
+    rev: ef6cf06c079dd6b299dfc720b0f14400c9d168e1 # frozen: v0.17.5
     hooks:
       - id: ruff
         args:
@@ -74,12 +74,12 @@ repos:
           - --select=I
       - id: ruff-format
   - repo: https://github.com/tofuutils/pre-commit-opentofu
-    rev: 10864545ddc58bd96330029b6bff16da3d072237 # frozen: v2.2.2
+    rev: c43835bd4b4962a2121e6dcdceaaf1440d68885d # frozen: v2.4.2
     hooks:
       - id: tofu_fmt
       - id: tofu_tflint
       - id: tofu_docs
   - repo: https://github.com/rhysd/actionlint
-    rev: 393031adb9afb225ee52ae2ccd7a5af5525e03e8 # frozen: v1.7.11
+    rev: 914e7df21a07ef503a81201c76d2b11c789d3fca # frozen: v1.7.12
     hooks:
       - id: actionlint
